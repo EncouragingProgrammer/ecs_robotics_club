@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Freenove 4WD Car Kit Guide</title>
+    <link rel="stylesheet" href="../css/styles.css">
+    <script src="../js/scripts.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/arduino-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+
+    <header>
+        <h1>ECS Robotics Club Tutorials</h1>
+        <nav class="topnav">
+            <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+            <a href="../index.html">Home</a>
+            <a href="arduino.html">Intro to Arduino</a>
+            <a class="active" href="car_kit.html">Car Kit</a>
+            <a href="about.html">About</a>
+            <a href="resources.html">Resources</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Freenove 4WD Car Kit Guide</h1>
+
+        <h2>Controlling Motors with PWM</h2>
+        <p>The Freenove 4WD car uses Pulse Width Modulation (PWM) to control motor speed. Instead of controlling each
+            motor
+            individually with <code>analogWrite()</code>, we use the <code>motorRun()</code> function, which accounts
+            for motor
+            direction and dead zones.</p>
+
+        <pre><code class="cpp">#define MOTOR_DIRECTION 0  // Change to 1 if the motors run in reverse
+#define MOTOR_PWM_DEAD 10   // Dead zone threshold to stop jittering
+
+void motorRun(int speedL, int speedR) {
+  int dirL = (speedL > 0) ? (0 ^ MOTOR_DIRECTION) : (1 ^ MOTOR_DIRECTION);
+  int dirR = (speedR > 0) ? (1 ^ MOTOR_DIRECTION) : (0 ^ MOTOR_DIRECTION);
+
+  speedL = constrain(abs(speedL), 0, 255);
+  speedR = constrain(abs(speedR), 0, 255);
+
+  if (speedL < MOTOR_PWM_DEAD && speedR < MOTOR_PWM_DEAD) {
+    speedL = speedR = 0;
+  }
+
+  digitalWrite(PIN_DIRECTION_LEFT, dirL);
+  digitalWrite(PIN_DIRECTION_RIGHT, dirR);
+  analogWrite(PIN_MOTOR_PWM_LEFT, speedL);
+  analogWrite(PIN_MOTOR_PWM_RIGHT, speedR);
+}
+
+void setup() {
+  pinMode(PIN_DIRECTION_LEFT, OUTPUT);
+  pinMode(PIN_MOTOR_PWM_LEFT, OUTPUT);
+  pinMode(PIN_DIRECTION_RIGHT, OUTPUT);
+  pinMode(PIN_MOTOR_PWM_RIGHT, OUTPUT);
+}
+
+void loop() {
+  motorRun(150, 150); // Move forward at 60% speed
+  delay(2000);
+  motorRun(-150, -150); // Move backward
+  delay(2000);
+  motorRun(150, -150); // Turn left
+  delay(1000);
+  motorRun(-150, 150); // Turn right
+  delay(1000);
+  motorRun(0, 0); // Stop
+  delay(1000);
+}</code></pre>
+
+        <h2>Reading Sensors</h2>
+        <p>The Freenove car includes line tracking and ultrasonic sensors.</p>
+
+        <h3>Reading a Button</h3>
+        <p>Button inputs work the same as standard Arduino projects:</p>
+
+        <pre><code class="cpp">int buttonPin = 2;
+void setup() {
+  pinMode(buttonPin, INPUT_PULLUP);
+}
+void loop() {
+  if (digitalRead(buttonPin) == LOW) {
+    Serial.println("Button Pressed");
+  }
+}</code></pre>
+
+        <h2>Communicating with RF24 Remote</h2>
+        <p>The Freenove 4WD car is controlled wirelessly using an **NRF24L01 radio module**.</p>
+
+        <h3>Transmitting Data</h3>
+        <pre><code class="cpp">#include &lt;SPI.h&gt;
+#include "RF24.h"
+
+RF24 radio(9, 10);
+const byte address[6] = "Laser";
+
+void setup() {
+  radio.begin();
+  radio.openWritingPipe(address);
+}
+
+void loop() {
+  int dataToSend = analogRead(A0);
+  radio.write(&dataToSend, sizeof(dataToSend));
+  delay(100);
+}</code></pre>
+
+        <h2>Using Servos</h2>
+        <p>The car kit uses a servo motor for obstacle avoidance and (in this case) jousting!</p>
+
+        <pre><code class="cpp">#include &lt;Servo.h&gt;
+
+Servo myServo;
+int potPin = A0;
+
+void setup() {
+  myServo.attach(9);
+}
+
+void loop() {
+  int potValue = analogRead(potPin);
+  int angle = map(potValue, 0, 1023, 0, 180);
+  myServo.write(angle);
+  delay(10);
+}</code></pre>
+
+        <h2>Jousting Mode (Custom Modifications)</h2>
+        <p>Modify car speed, control the servo motor for the lance, and set unique RF24 addresses for competition.</p>
+
+        <h2>Conclusion</h2>
+        <p>Now that you have an understanding of the Freenove 4WD car, try modifying its behavior for different
+            challenges!</p>
+    </main>
+
+    <footer>
+        <p>Created March 2025, by Ryan Gustafson for the purposes of supporting the ECS Robotics Club</p>
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Arduino and C++ Tutorial</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/styles.css" />
+  <script src="/js/scripts.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/arduino-light.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+  <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+  <header>
+    <h1>ECS Robotics Club Tutorials</h1>
+    <nav class="topnav">
+      <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+      <a href="../index.html">Home</a>
+      <a class="active" href="arduino.html">Intro to Arduino</a>
+      <a href="car_kit.html">Car Kit</a>
+      <a href="about.html">About</a>
+      <a href="resources.html">Resources</a>
+    </nav>
+  </header>
+  <main>
+    <h1>Introduction to Programming, Arduino, and C++</h1>
+
+    <h2>Introduction</h2>
+
+    <h3>What is Programming?</h3>
+    <p>Programming is the process of writing instructions that a computer or microcontroller can understand and execute.
+      These instructions are written in a programming language, which allows humans to communicate with machines.
+      Programming enables us to automate tasks, solve problems, and create interactive systems like robots, websites,
+      and
+      applications.</p>
+
+    <h3>Why Learn Arduino and C++?</h3>
+    <ul>
+      <li><strong>Arduino</strong> provides an easy way to interact with hardware like sensors, motors, and lights.
+        It allows you to build projects without needing advanced electronics knowledge.</li>
+      <li><strong>C++</strong> is the programming language used to write Arduino programs.
+        It is widely used in robotics, game development, and high-performance computing.
+        By learning C++, students gain skills that apply to both Arduino and other areas of software development.</li>
+    </ul>
+
+    <h2>Introduction to Arduino</h2>
+
+    <h3>What is Arduino?</h3>
+    <p>Arduino is an <strong>open-source electronics platform</strong> that includes programmable circuit boards
+      (microcontrollers)
+      and software (Arduino IDE). It allows users to build projects that interact with the physical world, such as
+      robots,
+      weather
+      stations, and automated systems. The Arduino board can read inputs (like button presses or sensor data) and
+      control
+      outputs
+      (like LEDs, motors, or displays).</p>
+
+    <h3>What is C++?</h3>
+    <p>C++ is a <strong>powerful, high-performance programming language</strong> used for systems programming, game
+      development, and embedded systems.
+      The Arduino programming language is based on <strong>a simplified version of C++</strong>, making it an excellent
+      introduction to the language while
+      allowing for advanced functionality.</p>
+
+    <h3>Installing Arduino IDE</h3>
+    <p>The <strong>Arduino IDE (Integrated Development Environment)</strong> is the software used to write and upload
+      code
+      to an Arduino board.
+      It includes a code editor, a compiler, and a tool to transfer code to the board.</p>
+
+    <p><strong>Download the Arduino IDE</strong> from the official website:<br>
+      <a href="https://www.arduino.cc/en/software" target="_blank">Arduino Software Download</a>
+    </p>
+
+    <h2>Introduction to C++ for Arduino</h2>
+
+    <h3>Basic Structure</h3>
+    <p>C++ programs for Arduino follow a structured format with two essential functions:</p>
+    <ul>
+      <li><strong>setup()</strong>: Runs once when the Arduino is powered on or reset. It is used to initialize settings
+        like pin modes.</li>
+      <li><strong>loop()</strong>: Runs repeatedly after setup(). It contains the main logic of your program.</li>
+    </ul>
+
+    <pre><code class="cpp">void setup() {
+    // Runs once when powered on or reset
+  }
+  
+  void loop() {
+    // Runs continuously after setup()
+  }</code></pre>
+
+    <h3>Variables and Data Types</h3>
+    <p>Variables store values that can be used and modified in a program. In Arduino, we use different data types
+      depending
+      on the type of value being stored.</p>
+
+    <table>
+      <tr>
+        <th>Data Type</th>
+        <th>Description</th>
+        <th>Example</th>
+      </tr>
+      <tr>
+        <td><code>int</code></td>
+        <td>Stores whole numbers (positive or negative)</td>
+        <td><code>int ledPin = 13;</code></td>
+      </tr>
+      <tr>
+        <td><code>float</code></td>
+        <td>Stores decimal numbers</td>
+        <td><code>float voltage = 3.7;</code></td>
+      </tr>
+      <tr>
+        <td><code>bool</code></td>
+        <td>Stores <code>true</code> or <code>false</code> values</td>
+        <td><code>bool isOn = true;</code></td>
+      </tr>
+      <tr>
+        <td><code>char</code></td>
+        <td>Stores a single character</td>
+        <td><code>char letter = 'A';</code></td>
+      </tr>
+      <tr>
+        <td><code>String</code></td>
+        <td>Stores a sequence of characters (text)</td>
+        <td><code>String message = "Hello, Arduino!";</code></td>
+      </tr>
+    </table>
+
+    <pre><code class="cpp">int ledPin = 13; // Integer variable to store pin number</code></pre>
+
+    <h3>Constants</h3>
+    <p>Constants are variables whose values never change throughout the program. They are useful for defining fixed
+      values
+      like pin numbers or speed limits.</p>
+
+    <pre><code class="cpp">const int MAX_SPEED = 255; // Maximum motor speed</code></pre>
+
+    <p>Using <code>const</code> prevents accidental changes to values that should remain the same, improving code
+      readability and safety.</p>
+
+
+    <h2>Basic Arduino Functions</h2>
+
+    <h3>Digital Output</h3>
+    <p>In Arduino, digital output is used to control components like LEDs, motors, and buzzers by sending either a HIGH
+      (ON)
+      or LOW (OFF) signal.</p>
+
+    <img src="../images/arduino_led_example.png" alt="Arduino LED Wiring Example" width="300">
+
+
+    <p>The following example program demonstrates how to turn an LED on and off at regular intervals.</p>
+
+    <pre><code class="cpp">int led = 13; // Declare a variable for the LED pin
+
+void setup() {
+  pinMode(led, OUTPUT); // Set pin 13 as an output
+}
+
+void loop() {
+  digitalWrite(led, HIGH); // Turn LED ON
+  delay(1000); // Wait for 1 second (1000ms)
+
+  digitalWrite(led, LOW); // Turn LED OFF
+  delay(500); // Wait for 0.5 seconds (500ms)
+}</code></pre>
+
+    <h3>Breaking Down the Code:</h3>
+    <ul>
+      <li><code>int led = 13;</code> → Declares a variable named <code>led</code> and assigns it the value **13**, which
+        is
+        the built-in LED pin on most Arduino boards.</li>
+
+      <li><code>void setup()</code> → This function runs **once** when the board is powered on or reset.</li>
+
+      <ul>
+        <li><code>pinMode(led, OUTPUT);</code> → Configures pin **13** as an **output**, meaning it can send signals to
+          control components.</li>
+      </ul>
+
+      <li><code>void loop()</code> → This function runs **continuously**, creating a repeating cycle of instructions.
+      </li>
+
+      <ul>
+        <li><code>digitalWrite(led, HIGH);</code> → Turns the LED **ON** by sending a **HIGH (5V)** signal.</li>
+        <li><code>delay(1000);</code> → Pauses the program for **1000 milliseconds (1 second)**.</li>
+        <li><code>digitalWrite(led, LOW);</code> → Turns the LED **OFF** by sending a **LOW (0V)** signal.</li>
+        <li><code>delay(500);</code> → Pauses the program for **500 milliseconds (0.5 seconds)** before repeating.</li>
+      </ul>
+    </ul>
+
+    <p>By adjusting the values inside the <code>delay()</code> functions, you can change how fast the LED blinks. Try
+      different values to see the effect!</p>
+
+  </main>
+
+  <footer>
+    <p>Created March 2025, by Ryan Gustafson for the purposes of supporting the ECS Robotics Club</p>
+  </footer>
+</body>
+
+</html>
