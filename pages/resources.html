@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>ECS Robotics Club Tutorials</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/styles.css" />
+    <script src="/js/scripts.js"></script>
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/arduino-light.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script>hljs.highlightAll();</script>
+</head>
+
+<body>
+    <header>
+        <h1>ECS Robotics Club Tutorials</h1>
+        <nav class="topnav">
+            <span class="menu-icon" onclick="toggleMenu()">&#9776;</span>
+            <a href="../index.html">Home</a>
+            <a href="arduino.html">Intro to Arduino</a>
+            <a href="car_kit.html">Car Kit</a>
+            <a href="about.html">About</a>
+            <a class="active" href="resources.html">Resources</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Resources</h1>
+
+        <h2>Freenove 4WD Car and Remote Sketches</h2>
+        <p>
+            Below are two sketches:
+            <strong>simplified_car_sketch.ino</strong> for the car,<br>
+            and <strong>car_remote_sketch.ino</strong> for the handheld remote.
+        </p>
+
+        <!-- Download Links -->
+        <p>
+        <ul>
+            <li>
+                <a href="../downloads/simplified_car_sketch.ino" download>Download the Simplified Car Sketch</a>
+            </li>
+            <li>
+                <a href="../downloads/car_remote_sketch.ino" download>Download the Car Remote Sketch</a>
+            </li>
+        </ul>
+        </p>
+
+        <h3>Setting Up and Uploading the Sketches</h3>
+        <ol>
+            <li>
+                <strong>Download both sketches</strong> from the links above.
+                You will end up with two files:
+                <ul>
+                    <li><code>simplified_car_sketch.ino</code></li>
+                    <li><code>car_remote_sketch.ino</code></li>
+                </ul>
+            </li>
+            <li>
+                <strong>Organize your files</strong>:
+                <ul>
+                    <li>Create a folder named <code>simplified_car_sketch</code> and place the
+                        <code>simplified_car_sketch.ino</code> file inside it.
+                    </li>
+                    <li>Create a folder named <code>car_remote_sketch</code> and place the
+                        <code>car_remote_sketch.ino</code> file inside it.
+                    </li>
+                </ul>
+                <em>Note:</em> The Arduino IDE requires the folder name to match the <code>.ino</code> filename.
+            </li>
+            <li>
+                <strong>Open the Arduino IDE</strong>.
+                If you do not have it installed, you can download it from
+                <a href="https://www.arduino.cc/en/software" target="_blank">Arduino’s official website</a>.
+            </li>
+            <li>
+                <strong>Update nRF24 addresses (if needed)</strong>:
+                <ul>
+                    <li>In both sketches, find a line like
+                        <code>const byte addresses[6] = "Laser";</code> (or similar).
+                    </li>
+                    <li>These addresses must match <em>exactly</em> between the car and the remote for communication to
+                        work.</li>
+                    <li>If you have multiple cars, give each car/remote pair a unique address (e.g. <code>"CarA"</code>,
+                        <code>"CarB"</code>, etc.) so they don’t interfere with each other.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <strong>Adjust speed reduction (optional)</strong> in the
+                <code>simplified_car_sketch.ino</code>:
+                <ul>
+                    <li>Look for a line
+                        <code>float speed_reduction = 0.8;</code>
+                    </li>
+                    <li>Values closer to <code>1.0</code> allow for faster driving, while lower values like
+                        <code>0.6</code> slow it down.
+                    </li>
+                    <li>Too low of a value might reduce torque on carpet or other high-friction surfaces.</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Upload the Car Sketch</strong>:
+                <ol>
+                    <li>Connect the Freenove Car’s main board to your computer with a USB cable.</li>
+                    <li>In the Arduino IDE, go to
+                        <em>File &gt; Open...</em> and select <code>simplified_car_sketch.ino</code>.
+                    </li>
+                    <li>Under <em>Tools &gt; Board</em>, select the board type (e.g. Arduino Uno).</li>
+                    <li>Under <em>Tools &gt; Port</em>, choose the COM port or device corresponding to your board.</li>
+                    <li>Click <em>Verify</em> (the checkmark icon) to compile the code.</li>
+                    <li>Click <em>Upload</em> (the arrow icon) to send the code to your car board.</li>
+                </ol>
+            </li>
+            <li>
+                <strong>Upload the Remote Sketch</strong>:
+                <ol>
+                    <li>Disconnect the car (if you have only one USB cable). Now connect the remote controller board
+                        (often another Arduino or similar) via USB.</li>
+                    <li>Open <code>car_remote_sketch.ino</code> in the Arduino IDE.</li>
+                    <li>Again, select the correct board and port in <em>Tools &gt; Board</em> and <em>Tools &gt;
+                            Port</em>.</li>
+                    <li>Make sure the <code>addresses[]</code> here matches the address in the car’s sketch exactly.
+                    </li>
+                    <li>Verify and Upload to the remote controller board.</li>
+                </ol>
+            </li>
+            <li>
+                <strong>Test Your Setup</strong>:
+                <ul>
+                    <li>Power the car using its battery pack (disconnect from USB if desired).</li>
+                    <li>Power the remote with a battery or USB, depending on your setup.</li>
+                    <li>When both are on and have matching addresses, moving the joystick or potentiometers on the
+                        remote should control the car.</li>
+                </ul>
+            </li>
+        </ol>
+
+        <p>
+            Now your Freenove Car and its matching Remote Controller should be communicating via the nRF24 modules.
+            Experiment with different speed reductions and addresses, but remember to keep them in sync on both
+            the car and remote sketches!
+        </p>
+    </main>
+
+    <footer>
+        <p>Created March 2025, by Ryan Gustafson for the purposes of supporting the ECS Robotics Club</p>
+    </footer>
+</body>
+
+</html>
